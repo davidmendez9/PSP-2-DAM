@@ -142,11 +142,11 @@ public class Empresa extends JFrame{
                 //CONDICION PARA ACTIVAR/DESACTIVAR LOS BOTONES
                 if(Empleado.esUlt() == true)
                 {
-                    button2.setEnabled(false);
+                    button2.setEnabled(false); //DESACTIVAR AVANZAR
                 }
-                if(Empleado.esPrimero() == false)
+                if(Empleado.esPrimero() == false) 
                 {
-                    button.setEnabled(true);
+                    button.setEnabled(true); //ACTIVAR RETROCEDER
                 }
             }
         });
@@ -164,11 +164,11 @@ public class Empresa extends JFrame{
                 //CONDICION PARA ACTIVAR/DESACTIVAR LOS BOTONES
                 if(Empleado.esPrimero() == true)
                 {
-                    button.setEnabled(false);
+                    button.setEnabled(false); //DESACTIVAR RETROCEDER
                 }
                 if(Empleado.esUlt() == false)
                 {
-                    button2.setEnabled(true);
+                    button2.setEnabled(true); //ACTIVAR AVANZAR
                 }
             }
         });
@@ -190,26 +190,41 @@ public class Empresa extends JFrame{
            //BOTON DE ACEPTAR 
             buttonAccept.addActionListener(new ActionListener() {  // Evento de boton.
             public void actionPerformed(ActionEvent e) {
-                new Empleado(nombreF.getText(), Integer.parseInt(numF.getText()), Integer.parseInt(sueldoF.getText()), Integer.parseInt(sueldoMaxF.getText()));
-                //BORRO LOS BOTONES DE ACEPTAR/CANCELAR
-                contenido.remove(botones2);
-                //AÑADO BOTONES ANTERIOR/CREAR/SIGUIENTE
-                contenido.add(buttonP, BorderLayout.SOUTH);
-                //DESACTIVO BOTON ANTERIOR
-                button.setEnabled(false);
-                //ACTIVO BOTON DE SIGUIENTE
-                button2.setEnabled(true);
-                //MUESTRO LOS EMPLEADOS
-                nombreF.setText(Empleado.act.getNombre());
-                numF.setText(""+Empleado.act.getNum());
-                sueldoF.setText(""+Empleado.act.getSueldo());
-                sueldoMaxF.setText(""+Empleado.act.getSueldoMax());
-                fechaAltaF.setText(""+(Empleado.act.getFechaAlta()).toInstant());
                 
-                setContentPane(contenido);
-                pack();
-                
-                fechaAltaF.setEnabled(true);
+                if(nombreF.getText().isEmpty() || numF.getText().isEmpty() || sueldoF.getText().isEmpty() || sueldoMaxF.getText().isEmpty())
+                {
+                    JOptionPane.showMessageDialog(contenido, "Debes rellenar todos los campos.");
+                }
+                else
+                {
+                    try
+                    {
+                        new Empleado(nombreF.getText(), Integer.parseInt(numF.getText()), Integer.parseInt(sueldoF.getText()), Integer.parseInt(sueldoMaxF.getText()));
+                    }
+                    catch(NumberFormatException n)
+                    {
+                        JOptionPane.showMessageDialog(contenido, "Introduce números en los campos numéricos");
+                    }
+                    //BORRO LOS BOTONES DE ACEPTAR/CANCELAR
+                    contenido.remove(botones2);
+                    //AÑADO BOTONES ANTERIOR/CREAR/SIGUIENTE
+                    contenido.add(buttonP, BorderLayout.SOUTH);
+                    //DESACTIVO BOTON ANTERIOR
+                    button.setEnabled(false);
+                    //ACTIVO BOTON DE SIGUIENTE
+                    button2.setEnabled(true);
+                    //MUESTRO LOS EMPLEADOS
+                    nombreF.setText(Empleado.act.getNombre());
+                    numF.setText(""+Empleado.act.getNum());                
+                    sueldoF.setText(""+Empleado.act.getSueldo());
+                    sueldoMaxF.setText(""+Empleado.act.getSueldoMax());
+                    fechaAltaF.setText(""+(Empleado.act.getFechaAlta()).toInstant());
+
+                    setContentPane(contenido);
+                    pack();
+
+                    fechaAltaF.setEnabled(true);
+                }
             }
         });
             //BOTON DE CANCELAR
